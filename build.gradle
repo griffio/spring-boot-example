@@ -1,0 +1,51 @@
+buildscript {
+  repositories {
+    maven { url "http://repo.spring.io/release" }
+    mavenLocal()
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_gradle_plugin_version}")
+  }
+}
+
+plugins {
+  id 'java'
+  id 'jetty'
+}
+
+project.ext.sourceCompatibility = JavaVersion.VERSION_1_8
+project.ext.targetCompatibility = JavaVersion.VERSION_1_8
+
+apply plugin: 'spring-boot'
+
+mainClassName = "griffio.Main"
+
+jar {
+  baseName = 'griffio-boot'
+  version =  '0.1.0'
+}
+
+run {
+  systemProperties = System.properties
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven { url "http://repo.spring.io/libs-release" }
+}
+
+dependencies {
+  compile("org.springframework.boot:spring-boot-starter-web",
+          "org.springframework.boot:spring-boot-starter-security")
+
+  testCompile(
+      'junit:junit',
+      'org.springframework.boot:spring-boot-starter-test')
+
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.2.1'
+}
